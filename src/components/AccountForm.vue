@@ -20,8 +20,43 @@
                     style="resize:none"></textarea>
             </div>
             <div>
-                <button type="submit" class="btn btn-primary w-100 mt-2">Save</button>
+                <button type="button" class="btn btn-primary w-100 mt-2">Save</button>
             </div>
         </div>
     </form>
 </template>
+
+<script>
+import { ref, watchEffect } from "vue";
+import { AppState } from "../AppState.js";
+import { router } from "../router";
+import { accountService } from "../services/AccountService";
+import { logger } from "../utils/Logger";
+import Pop from "../utils/Pop";
+
+export default {
+    setup() {
+
+        const editable = ref({})
+
+        watchEffect(() => {
+            if (!AppState.account) { return }
+            editable.value = { ...AppState.account }
+        })
+
+        return {
+            editable,
+            async handleSubmit() {
+                try {
+                    await accountService.editAccount(editable.value)
+                    router.push({ name: 'profile', params: { profileId: editable.value.id } })
+                } catch (error) {
+                    logger.error('[submitting]', error)
+                    Pop.error(error)
+                }
+            }
+        }
+
+    }
+}
+</script>
