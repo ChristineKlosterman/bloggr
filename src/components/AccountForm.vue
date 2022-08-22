@@ -1,5 +1,5 @@
 <template>
-    <form>
+    <form class="card account-form" @submit.prevent="handleSubmit">
         <div class="card-body text-start">
             <div>
                 <label for="name">Name:</label>
@@ -20,7 +20,7 @@
                     style="resize:none"></textarea>
             </div>
             <div>
-                <button type="button" class="btn btn-primary w-100 mt-2">Save</button>
+                <button type="submit" class="btn btn-primary w-100 mt-2">Save</button>
             </div>
         </div>
     </form>
@@ -48,6 +48,7 @@ export default {
             editable,
             async handleSubmit() {
                 try {
+                    logger.log('submitting')
                     await accountService.editAccount(editable.value)
                     router.push({ name: 'profile', params: { profileId: editable.value.id } })
                 } catch (error) {

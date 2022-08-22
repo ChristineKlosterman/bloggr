@@ -1,16 +1,16 @@
 <template>
-  <div class="about text-center">
-    <h1>Welcome {{ account.name }}</h1>
-    <img class="rounded" :src="account.picture" alt="" />
-    <p>{{ account.email }}</p>
-    <AccountForm />
+  <div class="container">
+    <div class="row my-3">
+      <div class="col-md-4">
+        <AccountForm />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { computed } from 'vue'
 import { AppState } from '../AppState'
-import AccountForm from '../components/AccountForm.vue';
 export default {
   name: "Account",
   setup() {
@@ -18,7 +18,7 @@ export default {
       account: computed(() => AppState.account)
     };
   },
-  components: { AccountForm }
+
 }
 </script>
 
